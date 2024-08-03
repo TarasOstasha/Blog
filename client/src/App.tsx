@@ -7,16 +7,13 @@ import About from './pages/About/About';
 import Locations from './pages/Locations/Locations';
 import Header from './components/Header/Header';
 
-import { Button } from '@mui/material';
+
 
 const App: React.FC = () => {
   return (
     <Router>
       <div>
         <Header />
-        <Button variant="contained" color="primary">
-        Hello World
-      </Button>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
