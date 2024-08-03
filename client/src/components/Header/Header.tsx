@@ -19,8 +19,8 @@ const Header: React.FC = () => {
           </Grid>
           <Grid item xs={6} md={9}>
             <Typography variant="h6" className={styles.logo}>
-              <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
-                <a href="#">LOGO</a>
+            <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+                LOGO
               </Link>
             </Typography>
           </Grid>
