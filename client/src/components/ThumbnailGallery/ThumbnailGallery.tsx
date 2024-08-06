@@ -1,13 +1,8 @@
 import React from 'react';
 import { Container, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { ImageData } from '../../interfaces';
 
 
-interface ImageData {
-    id: number;
-    img: string;
-    title: string;
-    author: string;
-  }
 
 const itemData: ImageData[] = [
   {
