@@ -74,7 +74,7 @@ const itemData: ImageData[] = [
 const ThumbnailGallery: React.FC = () => {
   return (
     <Container sx={{ paddingTop: 4 }}>
-        <ImageList sx={{ width: 800 }} cols={4}>
+        <ImageList sx={{ width: 1150 }} cols={4}>
         {itemData.map((item) => (
             <ImageListItem key={item.img}>
             <img
