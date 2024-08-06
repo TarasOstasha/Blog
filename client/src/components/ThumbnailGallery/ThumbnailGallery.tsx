@@ -53,13 +53,28 @@ const itemData: ImageData[] = [
     img: 'https://via.placeholder.com/200',
     title: 'Image 4',
     author: 'author 4',
+  },
+  {
+    img: 'https://via.placeholder.com/200',
+    title: 'Image 4',
+    author: 'author 4',
+  },
+  {
+    img: 'https://via.placeholder.com/200',
+    title: 'Image 4',
+    author: 'author 4',
+  },
+  {
+    img: 'https://via.placeholder.com/200',
+    title: 'Image 4',
+    author: 'author 4',
   }
 ];
 
 const ThumbnailGallery: React.FC = () => {
   return (
     <Container sx={{ paddingTop: 4 }}>
-        <ImageList sx={{ width: 800 }} cols={3}>
+        <ImageList sx={{ width: 800 }} cols={4}>
         {itemData.map((item) => (
             <ImageListItem key={item.img}>
             <img
