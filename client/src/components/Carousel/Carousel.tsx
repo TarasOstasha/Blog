@@ -25,23 +25,23 @@ interface CarouselProps {
   getCarousel: (params: { limit: number; offset: number }) => void;
 }
 
-const defaultCarouselData: CarouselData[] = [
-  {
-    img: 'https://www.kauai.com/images/haena-beach-bali-hai-scaled.jpg',
-    title: 'Kaui',
-    description: 'dfdsfd hdjshf dshf jdkshf sdhfhsdf'
-  },
-  {
-    img: 'https://www.kauai.com/images/haena-beach-bali-hai-scaled.jpg',
-    title: 'Kaui',
-    description: 'dfdsfd hdjshf dshf jdkshf sdhfhsdf'
-  },
-  {
-    img: 'https://www.kauai.com/images/haena-beach-bali-hai-scaled.jpg',
-    title: 'Kaui',
-    description: 'dfdsfd hdjshf dshf jdkshf sdhfhsdf'
-  }
-]
+// const defaultCarouselData: CarouselData[] = [
+//   {
+//     img: 'https://www.kauai.com/images/haena-beach-bali-hai-scaled.jpg',
+//     title: 'Kaui',
+//     description: 'dfdsfd hdjshf dshf jdkshf sdhfhsdf'
+//   },
+//   {
+//     img: 'https://www.kauai.com/images/haena-beach-bali-hai-scaled.jpg',
+//     title: 'Kaui',
+//     description: 'dfdsfd hdjshf dshf jdkshf sdhfhsdf'
+//   },
+//   {
+//     img: 'https://www.kauai.com/images/haena-beach-bali-hai-scaled.jpg',
+//     title: 'Kaui',
+//     description: 'dfdsfd hdjshf dshf jdkshf sdhfhsdf'
+//   }
+// ]
 
 const Carousel: React.FC<CarouselProps> = ({ carouselData, isFetching, error, getCarousel }) => {
   //const [carouselData, setCarouselData] = useState<CarouselData[]>(defaultCarouselData);

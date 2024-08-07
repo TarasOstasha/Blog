@@ -21,6 +21,11 @@ export const getCarouselData = (limit: number, offset: number) => {
     // });
 };
 
+export const getThumnailGalleryData = (limit: number, offset: number) => {
+  const query = queryString.stringify({ limit, offset });
+  return axiosInstance.get(`/carouselItems/?${query}`);
+}
+
 
 export default axiosInstance;
 

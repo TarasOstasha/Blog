@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import carouselReducer from './slices/carouselSlice';
+import imgThumbnailReducer from './slices/thumbnailGallerySlice';
 
 export const store = configureStore({
   reducer: {
     carousel: carouselReducer,
+    imgThumnail: imgThumbnailReducer
   },
 });
 
