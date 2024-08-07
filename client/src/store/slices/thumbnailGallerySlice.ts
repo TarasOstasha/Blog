@@ -2,15 +2,9 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import * as API from '../../api';
-import { ImageData } from "../../interfaces";
+import { ImageData, thumbnailGalleryState, } from "../../interfaces";
 
 
-// export interface ImageData {
-//     id: string;
-//     img: string;
-//     title: string;
-//     author: string;
-// }
 const itemData: ImageData[] = [
     {
       id: uuidv4(),
@@ -85,17 +79,13 @@ const itemData: ImageData[] = [
       author: 'author 4',
     }
 ];
-export interface thumnailGalleryState {
-    galleryData: ImageData[];
-    isFetching: boolean
-    error: string | null;
-}
+
 export interface FetchError {
     errors: string;
 }
 const IMG_SLICE_NAME = 'imgGallery';
 
-const initialState: thumnailGalleryState = {
+const initialState: thumbnailGalleryState = {
     galleryData: itemData,
     isFetching: false,
     error: null
