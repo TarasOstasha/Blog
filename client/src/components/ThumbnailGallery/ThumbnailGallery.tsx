@@ -10,7 +10,7 @@ import { getThumbnailGalleryThunk } from '../../store/slices/thumbnailGallerySli
 const ThumbnailGallery: React.FC<GalleryProps> = ({ galleryData, isFetching, error, getGalleryData }) => {
   useEffect(() => {
     if (galleryData.length === 0) {
-      getGalleryData({ limit: 10, offset: 0 });
+      getGalleryData({ limit: 4, offset: 0 });
     }
   }, [galleryData, getGalleryData]);
 

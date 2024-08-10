@@ -6,6 +6,7 @@ import NotFound from './components/NotFound/NotFound';
 import About from './pages/About/About';
 import Locations from './pages/Locations/Locations';
 import Header from './components/Header/Header';
+import Authentication from './pages/Authentification/Authentication';
 
 
 
@@ -18,6 +19,7 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/locations" element={<Locations />} />
+          <Route path='/auth' element={<Authentication />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

@@ -100,6 +100,7 @@ const initialState: thumbnailGalleryState = {
     async ({ limit, offset }, { rejectWithValue }) => {
       try {
         const { data: { data } } = await API.getThumnailGalleryData(limit, offset);
+        console.log(data, '<< data');
         return data;
       } catch (err) {
         if (axios.isAxiosError(err) && err.response) {
