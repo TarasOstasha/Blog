@@ -26,6 +26,23 @@ export const getThumnailGalleryData = (limit: number, offset: number) => {
   return axiosInstance.get(`/galleryItems/?${query}`);
 }
 
+// AUTH section
+export const getUserById = (id: string) => {
+  return axiosInstance.get(`/auth/${id}`);
+}
+// For login action
+export const loginUser = (email: string, password: string) => {
+  const query = queryString.stringify({ email, password });
+  console.log(query, '<< query');
+  return axiosInstance.post(`/auth/login/?${query}`);
+};
+
+// For signup action
+export const signupUser = (name: string, email: string, password: string) => {
+  const query = queryString.stringify({ name, email, password });
+  return axiosInstance.post(`/auth/signup/?${query}`);
+};
+
 
 export default axiosInstance;
 

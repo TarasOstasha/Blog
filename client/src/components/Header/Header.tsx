@@ -3,9 +3,16 @@ import HomeIcon from '@mui/icons-material/Home';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
+import { connect } from "react-redux";
+import { RootState } from '../../store';
+import { HeaderProps, UserData } from '../../interfaces';
 
 
-const Header: React.FC = () => {
+
+
+const Header: React.FC<HeaderProps> = ({ userData }) => {
+  if (!userData) return null;
+  const { name } = userData;
   return (
     <AppBar position="static">
       <Toolbar>
@@ -17,7 +24,7 @@ const Header: React.FC = () => {
               </Link>
             </Typography>
           </Grid>
-          <Grid item xs={6} md={9}>
+          <Grid item xs={6} md={8}>
             <Typography variant="h6" className={styles.logo}>
             <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
                 LOGO
@@ -38,10 +45,19 @@ const Header: React.FC = () => {
               </Link>
             </Typography>
           </Grid>
+          <Grid item xs={12} md={1}>
+            <Typography variant="h6">
+              { name }
+            </Typography>
+          </Grid>
         </Grid>
       </Toolbar>
     </AppBar>
   );
 }
 
-export default Header
+const mapStateToProps = ({ auth: { authData } }: RootState) => ({ userData: authData });
+
+
+
+export default connect (mapStateToProps, null) (Header)
