@@ -7,8 +7,9 @@ import About from './pages/About/About';
 import Locations from './pages/Locations/Locations';
 import Header from './components/Header/Header';
 import Authentication from './pages/Authentification/Authentication';
-
-
+import GalleryForm from './pages/GalleryForm/GalleryForm';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
 
 const App: React.FC = () => {
   return (
@@ -19,7 +20,10 @@ const App: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/locations" element={<Locations />} />
-          <Route path='/auth' element={<Authentication />} />
+          <Route path="/auth" element={<Authentication />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/gallery" element={<GalleryForm />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

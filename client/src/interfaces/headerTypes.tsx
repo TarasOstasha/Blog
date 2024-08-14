@@ -1,7 +1,10 @@
 export interface UserData {
-    name: string;
+  id: string;
+  name: string;
+  email: string;
+  password: string;
 }
-  
+
 export interface HeaderProps {
-    userData: UserData | null;
+  userData: UserData | null;
 }
