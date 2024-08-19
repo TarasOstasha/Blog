@@ -1,26 +1,34 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { TextField, Button, Container, Typography } from '@mui/material';
-import * as Yup from 'yup';
 import { GALERY_FORM_VALIDATION_SCHEMA } from '../../utils/validationSchema';
+import { uploadGalley } from '../../api';
+import { FormValues } from '../../interfaces';
 
-const initialValues = {
+const initialValues: FormValues = {
   title: '',
   author: '',
   image: null,
 };
 
 const GalleryForm: React.FC = () => {
-  const handleSubmit = (values: any) => {
-    const formData = new FormData();
-    formData.append('title', values.title);
-    formData.append('author', values.author);
-    formData.append('image', values.image);
+  const handleSubmit = async (
+    values: FormValues,
+    formikBag: FormikHelpers<FormValues>
+  ) => {
+    try {
+      const formData = new FormData();
+      formData.append('title', values.title);
+      formData.append('author', values.author);
+      formData.append('image', values.image as File);
 
-    // You can inspect the contents using forEach
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
+      const response = await uploadGalley(formData);
+      console.log('Success:', response);
+
+      formikBag.resetForm();
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
   };
   return (
     <div>

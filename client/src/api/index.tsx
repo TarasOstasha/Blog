@@ -3,9 +3,9 @@ import queryString from 'query-string';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:5000/api',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  // headers: {
+  //   'Content-Type': 'application/json',
+  // },
   paramsSerializer: (params) => queryString.stringify(params),
 });
 
@@ -21,16 +21,15 @@ export const getCarouselData = (limit: number, offset: number) => {
   // });
 };
 
-export const getThumnailGalleryData = (limit: number, offset: number) => {
-  const query = queryString.stringify({ limit, offset });
-  return axiosInstance.get(`/galleryItems/?${query}`);
+// export const getThumnailGalleryData = (limit: number, offset: number) => {
+//   const query = queryString.stringify({ limit, offset });
+//   return axiosInstance.get(`/galleryItems/?${query}`);
+// };
+
+export const getThumnailGalleryData = (limit?: number, offset?: number) => {
+  return axiosInstance.get('/galleryItems', { params: { limit, offset } });
 };
 
-// AUTH section
-// export const getUserByEmail = (user: string) => {
-//   const query = queryString.stringify({ user });
-//   return axiosInstance.get(`/auth/getByEmail/?${query}`);
-// };
 // For login action
 export const loginUser = (email: string, password: string) => {
   const query = queryString.stringify({ email, password });
@@ -39,12 +38,26 @@ export const loginUser = (email: string, password: string) => {
 
 // For signup action
 export const signupUser = (name: string, email: string, password: string) => {
-  // const query = queryString.stringify({ name, email, password });
-  // console.log(query, '<< query signup');
-  // return axiosInstance.post(`/auth/signup/?${query}`);
   const data = { name, email, password };
   console.log(data, '<< signup data');
   return axiosInstance.post('/auth/signup', data);
+};
+
+export const uploadGalley = async (formData: FormData) => {
+  try {
+    const response = await axiosInstance.post('/upload', formData);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error:', error.response?.data || error.message);
+      throw new Error(
+        error.response?.data.message || 'An error occurred during the upload'
+      );
+    } else {
+      console.error('Unexpected error:', error);
+      throw new Error('An unexpected error occurred');
+    }
+  }
 };
 
 export default axiosInstance;
