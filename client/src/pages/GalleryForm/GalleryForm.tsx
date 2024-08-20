@@ -4,6 +4,9 @@ import { TextField, Button, Container, Typography } from '@mui/material';
 import { GALERY_FORM_VALIDATION_SCHEMA } from '../../utils/validationSchema';
 import { uploadGalley } from '../../api';
 import { FormValues } from '../../interfaces';
+import { connect } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { uploadGalleryThunk } from '../../store/slices/thumbnailGallerySlice';
 
 const initialValues: FormValues = {
   title: '',
@@ -11,24 +14,25 @@ const initialValues: FormValues = {
   image: null,
 };
 
-const GalleryForm: React.FC = () => {
+const GalleryForm: React.FC<any> = ({ createGalleryImg }) => {
   const handleSubmit = async (
     values: FormValues,
     formikBag: FormikHelpers<FormValues>
   ) => {
-    try {
-      const formData = new FormData();
-      formData.append('title', values.title);
-      formData.append('author', values.author);
-      formData.append('image', values.image as File);
+    createGalleryImg(values);
+    // try {
+    //   const formData = new FormData();
+    //   formData.append('title', values.title);
+    //   formData.append('author', values.author);
+    //   formData.append('image', values.image as File);
 
-      const response = await uploadGalley(formData);
-      console.log('Success:', response);
-
-      formikBag.resetForm();
-    } catch (error) {
-      console.error('Error during form submission:', error);
-    }
+    //   const response = await uploadGalley(formData);
+    //   console.log('Success:', response);
+    //   console.log(formData, '<<formData');
+    //   //formikBag.resetForm();
+    // } catch (error) {
+    //   console.error('Error during form submission:', error);
+    // }
   };
   return (
     <div>
@@ -100,4 +104,19 @@ const GalleryForm: React.FC = () => {
   );
 };
 
-export default GalleryForm;
+// Map state to props
+// const mapStateToProps = (state: RootState) => ({
+//   carouselData: state.carousel.carouselData,
+//   isFetching: state.carousel.isFetching,
+//   error: state.carousel.error,
+// });
+
+// Map dispatch to props
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  createGalleryImg: (values: any) => {
+    console.log(values, 'values from component');
+    return dispatch(uploadGalleryThunk(values));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(GalleryForm);

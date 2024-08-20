@@ -8,22 +8,21 @@ import styles from './Carousel.module.scss';
 import { getCarouselData } from '../../api';
 import { getCarouselThunk } from '../../store/slices/carouselSlice';
 import { RootState, AppDispatch } from '../../store';
+import { CarouselProps } from '../../interfaces';
 
-
-
-interface CarouselData {
-  img: string;
-  title: string;
-  description: string;
-}
+// interface CarouselData {
+//   img: string;
+//   title: string;
+//   description: string;
+// }
 
 // Define component props
-interface CarouselProps {
-  carouselData: CarouselData[];
-  isFetching: boolean;
-  error: string | null;
-  getCarousel: (params: { limit: number; offset: number }) => void;
-}
+// interface CarouselProps {
+//   carouselData: CarouselData[];
+//   isFetching: boolean;
+//   error: string | null;
+//   getCarousel: (params: { limit: number; offset: number }) => void;
+// }
 
 // const defaultCarouselData: CarouselData[] = [
 //   {
@@ -43,20 +42,25 @@ interface CarouselProps {
 //   }
 // ]
 
-const Carousel: React.FC<CarouselProps> = ({ carouselData, isFetching, error, getCarousel }) => {
+const Carousel: React.FC<CarouselProps> = ({
+  carouselData,
+  isFetching,
+  error,
+  getCarousel,
+}) => {
   //const [carouselData, setCarouselData] = useState<CarouselData[]>(defaultCarouselData);
   useEffect(() => {
     if (carouselData.length === 0) {
       getCarousel({ limit: 10, offset: 0 });
     }
   }, [carouselData, getCarousel]);
-  
+
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToScroll: 1,
   };
 
   if (isFetching) {
@@ -66,8 +70,6 @@ const Carousel: React.FC<CarouselProps> = ({ carouselData, isFetching, error, ge
   if (error) {
     return <div>Error: {error}</div>;
   }
-
-  
 
   // https://www.kauai.com/images/haena-beach-bali-hai-scaled.jpg
 
@@ -84,7 +86,6 @@ const Carousel: React.FC<CarouselProps> = ({ carouselData, isFetching, error, ge
 
   //   fetchData();
   // }, []);
-
 
   return (
     <Box sx={{ maxWidth: 1200, margin: '0 auto', paddingTop: 4 }}>
@@ -107,7 +108,6 @@ const Carousel: React.FC<CarouselProps> = ({ carouselData, isFetching, error, ge
   );
 };
 
-
 // Map state to props
 const mapStateToProps = (state: RootState) => ({
   carouselData: state.carousel.carouselData,
@@ -117,7 +117,8 @@ const mapStateToProps = (state: RootState) => ({
 
 // Map dispatch to props
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
-  getCarousel: (params: { limit: number; offset: number }) => dispatch(getCarouselThunk(params)),
+  getCarousel: (params: { limit: number; offset: number }) =>
+    dispatch(getCarouselThunk(params)),
 });
 
 // Connect the component to the Redux store

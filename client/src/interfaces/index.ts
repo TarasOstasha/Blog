@@ -1,6 +1,11 @@
 // export * from './carouselTypes';
 // export * from './thumbnailGallery';
-export type { CarouselData, CarouselState, FetchError } from './carouselTypes';
+export type {
+  CarouselData,
+  CarouselState,
+  FetchError,
+  CarouselProps,
+} from './carouselTypes';
 export type {
   ImageData,
   GalleryProps,

@@ -43,22 +43,8 @@ export const signupUser = (name: string, email: string, password: string) => {
   return axiosInstance.post('/auth/signup', data);
 };
 
-export const uploadGalley = async (formData: FormData) => {
-  try {
-    const response = await axiosInstance.post('/upload', formData);
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Axios error:', error.response?.data || error.message);
-      throw new Error(
-        error.response?.data.message || 'An error occurred during the upload'
-      );
-    } else {
-      console.error('Unexpected error:', error);
-      throw new Error('An unexpected error occurred');
-    }
-  }
-};
+export const uploadGalley = (formData: FormData) =>
+  axiosInstance.post('/upload', formData);
 
 export default axiosInstance;
 

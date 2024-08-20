@@ -109,6 +109,34 @@ export const getThumbnailGalleryThunk = createAsyncThunk<
   }
 });
 
+export const uploadGalleryThunk = createAsyncThunk<
+  ImageData, // Return type of the payload creator
+  { image: File; title: string; author: string }, // Argument to the payload creator
+  { rejectValue: FetchError } // Types for thunkAPI rejectWithValue
+>(
+  `${IMG_SLICE_NAME}/upload`,
+  async ({ image, title, author }, { rejectWithValue }) => {
+    //console.log(payload, '<< img, title, author from slice');
+    try {
+      //const { image, title, author } = payload;
+
+      console.log(image, title, author);
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('author', author);
+      formData.append('image', image as File);
+
+      const { data } = await API.uploadGalley(formData);
+      return data;
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        return rejectWithValue({ errors: err.response.data });
+      }
+      return rejectWithValue({ errors: 'An unknown error occurred' });
+    }
+  }
+);
+
 const thumbnailGallerySlice = createSlice({
   initialState,
   name: IMG_SLICE_NAME,
@@ -124,6 +152,20 @@ const thumbnailGallerySlice = createSlice({
       })
       .addCase(
         getThumbnailGalleryThunk.rejected,
+        (state, action: PayloadAction<FetchError | undefined>) => {
+          state.isFetching = false;
+          state.error = action.payload?.errors || 'Failed to fetch data';
+        }
+      )
+      .addCase(uploadGalleryThunk.pending, (state) => {
+        state.isFetching = true;
+      })
+      .addCase(uploadGalleryThunk.fulfilled, (state, { payload }) => {
+        state.isFetching = false;
+        state.galleryData.push(payload);
+      })
+      .addCase(
+        uploadGalleryThunk.rejected,
         (state, action: PayloadAction<FetchError | undefined>) => {
           state.isFetching = false;
           state.error = action.payload?.errors || 'Failed to fetch data';
