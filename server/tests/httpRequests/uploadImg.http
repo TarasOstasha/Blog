@@ -1,0 +1,10 @@
+### 201 {}
+
+POST http://localhost:5000/api/upload
+Content-Type: application/json
+
+{
+  "title": "Sample Title",
+  "author": "John Doe",
+  "image": "base64encodedimagestring"
+}
