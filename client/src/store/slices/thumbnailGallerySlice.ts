@@ -110,17 +110,13 @@ export const getThumbnailGalleryThunk = createAsyncThunk<
 });
 
 export const uploadGalleryThunk = createAsyncThunk<
-  ImageData, // Return type of the payload creator
-  { image: File; title: string; author: string }, // Argument to the payload creator
-  { rejectValue: FetchError } // Types for thunkAPI rejectWithValue
+  ImageData,
+  { image: File; title: string; author: string },
+  { rejectValue: FetchError }
 >(
   `${IMG_SLICE_NAME}/upload`,
   async ({ image, title, author }, { rejectWithValue }) => {
-    //console.log(payload, '<< img, title, author from slice');
     try {
-      //const { image, title, author } = payload;
-
-      console.log(image, title, author);
       const formData = new FormData();
       formData.append('title', title);
       formData.append('author', author);

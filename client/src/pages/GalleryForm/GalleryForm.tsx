@@ -20,19 +20,7 @@ const GalleryForm: React.FC<any> = ({ createGalleryImg }) => {
     formikBag: FormikHelpers<FormValues>
   ) => {
     createGalleryImg(values);
-    // try {
-    //   const formData = new FormData();
-    //   formData.append('title', values.title);
-    //   formData.append('author', values.author);
-    //   formData.append('image', values.image as File);
-
-    //   const response = await uploadGalley(formData);
-    //   console.log('Success:', response);
-    //   console.log(formData, '<<formData');
-    //   //formikBag.resetForm();
-    // } catch (error) {
-    //   console.error('Error during form submission:', error);
-    // }
+    formikBag.resetForm();
   };
   return (
     <div>
