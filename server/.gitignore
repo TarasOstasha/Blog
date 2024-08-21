@@ -1,13 +1,13 @@
 .vscode/
 node_modules/
 
-# Exclude all image files
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.bmp
-*.svg
-*.webp
-*.tiff
-*.ico
+# Ignore all image files in server/public/images/gallery
+server/public/images/gallery/*.png
+server/public/images/gallery/*.jpg
+server/public/images/gallery/*.jpeg
+server/public/images/gallery/*.gif
+server/public/images/gallery/*.bmp
+server/public/images/gallery/*.svg
+server/public/images/gallery/*.webp
+server/public/images/gallery/*.tiff
+server/public/images/gallery/*.ico
