@@ -1,4 +1,5 @@
 import React from 'react';
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { TextField, Button, Container, Typography } from '@mui/material';
 import { GALERY_FORM_VALIDATION_SCHEMA } from '../../utils/validationSchema';
@@ -7,6 +8,7 @@ import { FormValues } from '../../interfaces';
 import { connect } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { uploadGalleryThunk } from '../../store/slices/thumbnailGallerySlice';
+import styles from './GalleryForm.module.scss';
 
 const initialValues: FormValues = {
   title: '',
@@ -28,9 +30,19 @@ const GalleryForm: React.FC<any> = ({ createGalleryImg }) => {
   };
   return (
     <div>
-      <Container maxWidth="sm">
-        <Typography variant="h4" gutterBottom>
-          Upload Image
+      <Container
+        maxWidth="sm"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh', // Ensure the container takes up at least the full viewport height
+        }}
+      >
+        <Typography variant="h4" gutterBottom className={styles.uploadImg}>
+          <span>Upload Image</span>
+          <ImageSearchIcon className={styles.imageSearchIcon} />
         </Typography>
         <Formik
           initialValues={initialValues}

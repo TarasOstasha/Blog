@@ -10,8 +10,9 @@ import { HeaderProps, UserData } from '../../interfaces';
 
 const Header: React.FC<HeaderProps> = ({ userData }) => {
   //const Header: React.FC = () => {
-  if (!userData) return null;
-  const { name } = userData;
+  console.log(userData, 'userData header');
+  // if (!userData) return null;
+  // const { name } = userData;
 
   return (
     <AppBar position="static">
@@ -52,7 +53,18 @@ const Header: React.FC<HeaderProps> = ({ userData }) => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={1}>
-            <Typography variant="h6">{name}</Typography>
+            {userData ? (
+              <Typography variant="h6">{userData.name}</Typography>
+            ) : (
+              <Typography variant="h6">
+                <Link
+                  to="/login"
+                  style={{ color: 'inherit', textDecoration: 'none' }}
+                >
+                  Login
+                </Link>
+              </Typography>
+            )}
           </Grid>
         </Grid>
       </Toolbar>
