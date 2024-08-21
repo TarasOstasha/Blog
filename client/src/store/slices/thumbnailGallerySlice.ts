@@ -111,27 +111,20 @@ export const getThumbnailGalleryThunk = createAsyncThunk<
 
 export const uploadGalleryThunk = createAsyncThunk<
   ImageData,
-  { image: File; title: string; author: string },
+  FormData,
   { rejectValue: FetchError }
->(
-  `${IMG_SLICE_NAME}/upload`,
-  async ({ image, title, author }, { rejectWithValue }) => {
-    try {
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('author', author);
-      formData.append('image', image as File);
-
-      const { data } = await API.uploadGalley(formData);
-      return data;
-    } catch (err) {
-      if (axios.isAxiosError(err) && err.response) {
-        return rejectWithValue({ errors: err.response.data });
-      }
-      return rejectWithValue({ errors: 'An unknown error occurred' });
+>(`${IMG_SLICE_NAME}/upload`, async (payload, { rejectWithValue }) => {
+  try {
+    const { data } = await API.uploadGalley(payload);
+    console.log(data, '<< data');
+    return data;
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response) {
+      return rejectWithValue({ errors: err.response.data });
     }
+    return rejectWithValue({ errors: 'An unknown error occurred' });
   }
-);
+});
 
 const thumbnailGallerySlice = createSlice({
   initialState,

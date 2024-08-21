@@ -15,11 +15,15 @@ const initialValues: FormValues = {
 };
 
 const GalleryForm: React.FC<any> = ({ createGalleryImg }) => {
-  const handleSubmit = async (
+  const handleSubmit = (
     values: FormValues,
     formikBag: FormikHelpers<FormValues>
   ) => {
-    createGalleryImg(values);
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('author', values.author);
+    formData.append('image', values.image as File);
+    createGalleryImg(formData);
     formikBag.resetForm();
   };
   return (
@@ -102,7 +106,7 @@ const GalleryForm: React.FC<any> = ({ createGalleryImg }) => {
 // Map dispatch to props
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   createGalleryImg: (values: any) => {
-    console.log(values, 'values from component');
+    //console.log(values, 'values from component');
     return dispatch(uploadGalleryThunk(values));
   },
 });
