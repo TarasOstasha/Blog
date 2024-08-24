@@ -11,3 +11,6 @@ server/public/images/gallery/*.svg
 server/public/images/gallery/*.webp
 server/public/images/gallery/*.tiff
 server/public/images/gallery/*.ico
+
+
+/public/*
