@@ -24,6 +24,7 @@ const uploadImgRouter = Router();
 
 uploadImgRouter
   .route('/')
+  .get(uploadImgController.getImgs)
   .post(upload.single('image'), uploadImgController.uploadImg);
 
 module.exports = uploadImgRouter;

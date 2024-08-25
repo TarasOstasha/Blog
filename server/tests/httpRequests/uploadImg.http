@@ -6,5 +6,10 @@ Content-Type: application/json
 {
   "title": "Sample Title",
   "author": "John Doe",
-  "image": "base64encodedimagestring"
+  "fileName": "/images/gallery/1724541511112.png"
 }
+
+
+### 200 {}
+
+GET http://localhost:5000/api/upload
