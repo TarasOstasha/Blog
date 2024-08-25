@@ -6,7 +6,7 @@ Content-Type: application/json
 {
   "title": "Sample Title",
   "author": "John Doe",
-  "fileName": "1724002609840.png"
+  "fileName": "/images/gallery/1724541511112.png"
 }
 
 
