@@ -4,80 +4,80 @@ import axios from 'axios';
 import * as API from '../../api';
 import { ImageData, thumbnailGalleryState } from '../../interfaces';
 
-const itemData: ImageData[] = [
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 1',
-    author: 'author 1',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 2',
-    author: 'author 2',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 3',
-    author: 'author 3',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-  {
-    id: uuidv4(),
-    img: 'https://via.placeholder.com/200',
-    title: 'Image 4',
-    author: 'author 4',
-  },
-];
+// const itemData: ImageData[] = [
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 1',
+//     author: 'author 1',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 2',
+//     author: 'author 2',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 3',
+//     author: 'author 3',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+//   {
+//     id: uuidv4(),
+//     img: 'https://via.placeholder.com/200',
+//     title: 'Image 4',
+//     author: 'author 4',
+//   },
+// ];
 
 export interface FetchError {
   errors: string;
@@ -85,7 +85,8 @@ export interface FetchError {
 const IMG_SLICE_NAME = 'imgGallery';
 
 const initialState: thumbnailGalleryState = {
-  galleryData: itemData,
+  //galleryData: itemData,
+  galleryData: [],
   isFetching: false,
   error: null,
 };
@@ -96,9 +97,10 @@ export const getThumbnailGalleryThunk = createAsyncThunk<
   { rejectValue: FetchError } // Types for thunkAPI rejectWithValue
 >(`${IMG_SLICE_NAME}/get`, async ({ limit, offset }, { rejectWithValue }) => {
   try {
+    console.log(limit, offset);
     const {
       data: { data },
-    } = await API.getThumnailGalleryData(limit, offset);
+    } = await API.getThumbnailGalleryData(limit, offset);
     console.log(data, '<< data');
     return data;
   } catch (err) {
@@ -136,6 +138,7 @@ const thumbnailGallerySlice = createSlice({
         state.isFetching = true;
       })
       .addCase(getThumbnailGalleryThunk.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.isFetching = false;
         state.galleryData = [...payload];
       })

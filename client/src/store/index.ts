@@ -6,14 +6,10 @@ import authUser from './slices/authSlice';
 export const store = configureStore({
   reducer: {
     carousel: carouselReducer,
-    imgThumnail: imgThumbnailReducer,
-    auth: authUser
+    imgThumbnail: imgThumbnailReducer,
+    auth: authUser,
   },
 });
-
-
-
-
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;

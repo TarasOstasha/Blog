@@ -26,8 +26,9 @@ export const getCarouselData = (limit: number, offset: number) => {
 //   return axiosInstance.get(`/galleryItems/?${query}`);
 // };
 
-export const getThumnailGalleryData = (limit?: number, offset?: number) => {
-  return axiosInstance.get('/galleryItems', { params: { limit, offset } });
+export const getThumbnailGalleryData = (limit?: number, offset?: number) => {
+  //return axiosInstance.get('/galleryItems', { params: { limit, offset } });
+  return axiosInstance.get('/upload', { params: { limit, offset } });
 };
 
 // For login action
