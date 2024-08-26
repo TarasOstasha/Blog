@@ -27,20 +27,6 @@ exports.uploadImg = async (req, res, next) => {
   }
 };
 
-// exports.getImgs = async (req, res, next) => {
-//   try {
-//     const foundImgs = await Gallery.findAll({
-//       raw: true,
-//     });
-//     res.status(200).send({
-//       data: foundImgs,
-//       //attributes: { exclude: ['createdAt', 'updatedAt'] },
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
 exports.getImgs = async (req, res, next) => {
   try {
     const { limit = 10, offset = 0 } = req.query;
@@ -53,6 +39,20 @@ exports.getImgs = async (req, res, next) => {
     res.status(200).json({
       data: foundImgs,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.removeImg = async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id, '<< ID');
+  try {
+    const deletedImg = await Gallery.destroy({ where: { id } });
+    if (!deletedImg) {
+      return next(createHttpError(404, 'Image Not Found'));
+    }
+    res.status(204).send();
   } catch (error) {
     next(error);
   }

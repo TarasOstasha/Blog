@@ -13,3 +13,8 @@ Content-Type: application/json
 ### 200 {}
 
 GET http://localhost:5000/api/upload
+
+
+### 204 {}
+
+DELETE http://localhost:5000/api/upload/1

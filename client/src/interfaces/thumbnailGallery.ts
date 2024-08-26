@@ -10,6 +10,7 @@ export interface GalleryProps {
   isFetching: boolean;
   error: string | null;
   getGalleryData: (params: { limit: number; offset: number }) => void;
+  deleteItem: any;
 }
 
 export interface thumbnailGalleryState {

@@ -27,4 +27,10 @@ uploadImgRouter
   .get(uploadImgController.getImgs)
   .post(upload.single('image'), uploadImgController.uploadImg);
 
+uploadImgRouter
+  .route('/:id')
+  //.get(petsController.getPetById)
+  //.patch(petsController.updatePetById)
+  .delete(uploadImgController.removeImg);
+
 module.exports = uploadImgRouter;

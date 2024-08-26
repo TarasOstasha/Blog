@@ -21,16 +21,6 @@ export const getCarouselData = (limit: number, offset: number) => {
   // });
 };
 
-// export const getThumnailGalleryData = (limit: number, offset: number) => {
-//   const query = queryString.stringify({ limit, offset });
-//   return axiosInstance.get(`/galleryItems/?${query}`);
-// };
-
-export const getThumbnailGalleryData = (limit?: number, offset?: number) => {
-  //return axiosInstance.get('/galleryItems', { params: { limit, offset } });
-  return axiosInstance.get('/upload', { params: { limit, offset } });
-};
-
 // For login action
 export const loginUser = (email: string, password: string) => {
   const query = queryString.stringify({ email, password });
@@ -46,6 +36,14 @@ export const signupUser = (name: string, email: string, password: string) => {
 
 export const uploadGalley = (formData: FormData) =>
   axiosInstance.post('/upload', formData);
+
+export const getThumbnailGalleryData = (limit?: number, offset?: number) => {
+  //return axiosInstance.get('/galleryItems', { params: { limit, offset } });
+  return axiosInstance.get('/upload', { params: { limit, offset } });
+};
+
+export const deleteThumbnailGalleryItemById = (id: number) =>
+  axiosInstance.delete(`/upload/${id}`);
 
 export default axiosInstance;
 
