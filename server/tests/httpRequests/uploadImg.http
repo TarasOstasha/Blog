@@ -18,3 +18,13 @@ GET http://localhost:5000/api/upload
 ### 204 {}
 
 DELETE http://localhost:5000/api/upload/1
+
+### 200 {}
+PATCH http://localhost:5000/api/upload/2
+Content-Type: application/json
+
+{
+  "title": "Sample Titledddddd",
+  "author": "John Doedddd",
+  "fileName": "/images/gallery/1724546735292.png"
+}

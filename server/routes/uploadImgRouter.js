@@ -30,7 +30,7 @@ uploadImgRouter
 uploadImgRouter
   .route('/:id')
   //.get(petsController.getPetById)
-  //.patch(petsController.updatePetById)
+  .patch(uploadImgController.updateImgById)
   .delete(uploadImgController.removeImg);
 
 module.exports = uploadImgRouter;

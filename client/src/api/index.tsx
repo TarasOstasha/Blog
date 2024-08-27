@@ -1,5 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
+import { ImageData } from '../interfaces';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:5000/api',
@@ -44,6 +45,17 @@ export const getThumbnailGalleryData = (limit?: number, offset?: number) => {
 
 export const deleteThumbnailGalleryItemById = (id: number) =>
   axiosInstance.delete(`/upload/${id}`);
+
+export interface ImageData1 {
+  id: number;
+  fileName: string;
+  title: string;
+  author: string;
+}
+export const updateThumbnailGalleryItem = (
+  id: number,
+  data: Partial<ImageData>
+) => axiosInstance.patch(`/upload/${id}`, data);
 
 export default axiosInstance;
 

@@ -241,6 +241,26 @@ export const deleteThumbnailGalleryItemThunk = createAsyncThunk<
     return rejectWithValue({ errors: 'An unknown error occurred' });
   }
 });
+// update
+export const updateThumbnailGalleryItemThunk = createAsyncThunk<
+  ImageData,
+  { id: number; data: Partial<ImageData> },
+  { rejectValue: FetchError }
+>(`${IMG_SLICE_NAME}/update`, async ({ id, data }, { rejectWithValue }) => {
+  console.log(id, data);
+  try {
+    const { data: responseData } = await API.updateThumbnailGalleryItem(
+      id,
+      data
+    );
+    return responseData.data;
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response) {
+      return rejectWithValue({ errors: err.response.data });
+    }
+    return rejectWithValue({ errors: 'An unknown error occurred' });
+  }
+});
 
 const thumbnailGallerySlice = createSlice({
   initialState,
@@ -296,6 +316,26 @@ const thumbnailGallerySlice = createSlice({
         (state, action: PayloadAction<FetchError | undefined>) => {
           state.isFetching = false;
           state.error = action.payload?.errors || 'Failed to delete item';
+        }
+      )
+      // update item
+      .addCase(updateThumbnailGalleryItemThunk.pending, (state) => {
+        state.isFetching = true;
+      })
+      .addCase(
+        updateThumbnailGalleryItemThunk.fulfilled,
+        (state, { payload }) => {
+          state.isFetching = false;
+          state.galleryData = state.galleryData.map((item) =>
+            item.id === payload.id ? { ...item, ...payload } : item
+          );
+        }
+      )
+      .addCase(
+        updateThumbnailGalleryItemThunk.rejected,
+        (state, action: PayloadAction<FetchError | undefined>) => {
+          state.isFetching = false;
+          state.error = action.payload?.errors || 'Failed to update data';
         }
       );
   },

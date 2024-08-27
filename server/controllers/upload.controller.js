@@ -1,4 +1,6 @@
+const createError = require('http-errors');
 const { Gallery } = require('./../models');
+const _ = require('lodash');
 
 exports.uploadImg = async (req, res, next) => {
   const { title, author } = req.body; // Text fields sent with the form
@@ -35,10 +37,50 @@ exports.getImgs = async (req, res, next) => {
       raw: true, // Return raw data instead of Sequelize instances
       limit: parseInt(limit, 10), // Ensure limit is an integer
       offset: parseInt(offset, 10), // Ensure offset is an integer
+      order: [['id', 'ASC']],
     });
     res.status(200).json({
       data: foundImgs,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.getImgById = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    //const foundUser = await User.findById(userId);
+    // if (!foundUser) {
+    //   return next(createHttpError(404, createHttpError(404, 'User Not Found')));
+    // }
+    // res.status(200).send({ data: foundUser });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.updateImgById = async (req, res, next) => {
+  const {
+    body,
+    params: { id },
+  } = req;
+  console.log(body, id);
+  try {
+    const [updatedImgCount, [updatedImg]] = await Gallery.update(body, {
+      where: { id },
+      raw: true,
+      returning: true,
+    });
+
+    if (!updatedImgCount) {
+      return next(createError(404, 'Image not found!'));
+    }
+
+    const preparedImage = _.omit(updatedImg, ['createdAt', 'updatedAt']);
+
+    res.status(200).send({ data: preparedImage });
   } catch (error) {
     next(error);
   }

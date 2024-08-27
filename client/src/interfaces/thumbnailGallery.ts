@@ -1,5 +1,5 @@
 export interface ImageData {
-  id: string;
+  id: number;
   fileName: string;
   title: string;
   author: string;
@@ -10,7 +10,9 @@ export interface GalleryProps {
   isFetching: boolean;
   error: string | null;
   getGalleryData: (params: { limit: number; offset: number }) => void;
-  deleteItem: any;
+  deleteItem: (id: number) => void;
+  //updateItem: (id: number, data: Partial<ImageData>) => Promise<void>;
+  updateItem: any;
 }
 
 export interface thumbnailGalleryState {
