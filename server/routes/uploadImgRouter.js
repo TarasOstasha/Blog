@@ -29,7 +29,7 @@ uploadImgRouter
 
 uploadImgRouter
   .route('/:id')
-  //.get(petsController.getPetById)
+  .get(uploadImgController.getImgById)
   .patch(uploadImgController.updateImgById)
   .delete(uploadImgController.removeImg);
 

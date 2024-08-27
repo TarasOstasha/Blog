@@ -2,7 +2,7 @@ const createError = require('http-errors');
 const { Gallery } = require('./../models');
 const _ = require('lodash');
 
-exports.uploadImg = async (req, res, next) => {
+module.exports.uploadImg = async (req, res, next) => {
   const { title, author } = req.body; // Text fields sent with the form
   const { filename: fileName } = req.file; // The uploaded file
   console.log(req.file);
@@ -29,7 +29,7 @@ exports.uploadImg = async (req, res, next) => {
   }
 };
 
-exports.getImgs = async (req, res, next) => {
+module.exports.getImgs = async (req, res, next) => {
   try {
     const { limit = 10, offset = 0 } = req.query;
     const foundImgs = await Gallery.findAll({
@@ -86,7 +86,7 @@ module.exports.updateImgById = async (req, res, next) => {
   }
 };
 
-exports.removeImg = async (req, res, next) => {
+module.exports.removeImg = async (req, res, next) => {
   const { id } = req.params;
   console.log(id, '<< ID');
   try {
