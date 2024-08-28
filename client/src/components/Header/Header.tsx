@@ -1,18 +1,47 @@
 import { AppBar, Toolbar, Typography, Grid } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
+import { jwtDecode } from 'jwt-decode';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { connect } from 'react-redux';
-import { RootState } from '../../store';
-import { HeaderProps, UserData } from '../../interfaces';
+import { AppDispatch, RootState } from '../../store';
+import { setAuthData, logout } from '../../store/slices/authSlice'; //'./store/slices/authSlice';
+//import { HeaderProps, MyToken } from '../../interfaces';
 //import { getUserDataThunk } from '../../store/slices/authSlice';
 
-const Header: React.FC<HeaderProps> = ({ userData }) => {
-  //const Header: React.FC = () => {
-  console.log(userData, 'userData header');
-  // if (!userData) return null;
-  // const { name } = userData;
+interface HeaderProps {
+  userName: string | undefined;
+  setAuthData: (token: MyToken) => void;
+  logOut: () => void;
+}
+
+interface MyToken {
+  id: number;
+  name: string;
+  email: string;
+  exp: number;
+  iat: number;
+}
+
+const Header: React.FC<HeaderProps> = ({ userName, setAuthData, logOut }) => {
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    console.log(token);
+    if (token) {
+      try {
+        if (token.split('.').length !== 3) {
+          throw new Error('Invalid token format');
+        }
+        const decodedToken = jwtDecode<MyToken>(token);
+        console.log('Decoded token:', decodedToken);
+        setAuthData(decodedToken);
+      } catch (error) {
+        console.error('Invalid token:', error);
+        localStorage.removeItem('authToken');
+      }
+    }
+  }, [setAuthData]);
 
   return (
     <AppBar position="static">
@@ -25,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ userData }) => {
               </Link>
             </Typography>
           </Grid>
-          <Grid item xs={6} md={8}>
+          <Grid item xs={6} md={7}>
             <Typography variant="h6" className={styles.logo}>
               <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
                 LOGO
@@ -53,18 +82,39 @@ const Header: React.FC<HeaderProps> = ({ userData }) => {
             </Typography>
           </Grid>
           <Grid item xs={12} md={1}>
-            {userData ? (
-              <Typography variant="h6">{userData.name}</Typography>
+            {userName ? (
+              <>
+                <Typography variant="h6">{userName}</Typography>
+              </>
             ) : (
-              <Typography variant="h6">
-                <Link
-                  to="/login"
-                  style={{ color: 'inherit', textDecoration: 'none' }}
-                >
-                  Login
-                </Link>
-              </Typography>
+              <>
+                <Typography variant="h6">
+                  <Link
+                    to="/login"
+                    style={{
+                      cursor: 'pointer',
+                      color: 'inherit',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    Login
+                  </Link>
+                </Typography>
+              </>
             )}
+          </Grid>
+          <Grid item xs={12} md={1}>
+            <Typography
+              variant="h6"
+              onClick={logOut}
+              style={{
+                cursor: 'pointer',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              Logout
+            </Typography>
           </Grid>
         </Grid>
       </Toolbar>
@@ -73,9 +123,14 @@ const Header: React.FC<HeaderProps> = ({ userData }) => {
 };
 
 const mapStateToProps = ({ auth: { authData } }: RootState) => ({
-  userData: authData[0],
+  userName: authData?.name || null, // Access name directly from authData
 });
 
-export default connect(mapStateToProps, null)(Header);
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+  setAuthData: (token: MyToken) => dispatch(setAuthData(token)),
+  logOut: () => dispatch(logout()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 
 //export default Header;

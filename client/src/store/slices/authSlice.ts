@@ -42,7 +42,7 @@ const defaultAuthData: UserData[] = [
 
 // Initial state
 const initialState: any = {
-  authData: [], //defaultAuthData, // Set this to null if no user should be logged in initially
+  authData: null, //defaultAuthData, // Set this to null if no user should be logged in initially
   isFetching: false,
   error: null,
 };
@@ -124,14 +124,9 @@ export const signupUserThunk = createAsyncThunk<
   async ({ name, email, password }, { rejectWithValue }) => {
     //console.log({ name, email, password });
     try {
-      // Check if user already exists
-      // const userExists = await API.getUserByEmail(email);
-      // if (userExists) {
-      //   return rejectWithValue({ errors: 'User already exists' });
-      // }
-      // create new user
-
       const { data } = await API.signupUser(name, email, password); // Assuming this returns AuthData
+      console.log(data.token, '<< token signupUserThunk');
+      localStorage.setItem('authToken', data.token);
       return data;
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -142,16 +137,25 @@ export const signupUserThunk = createAsyncThunk<
   }
 );
 
+interface MyToken {
+  id: number;
+  name: string;
+  email: string;
+  exp: number;
+  iat: number;
+}
 const authUserSlice = createSlice({
   initialState,
   name: AUTH_SLICE_NAME,
   reducers: {
-    // logout: (state) => {
-    //   state.authData = null; // Clear user data on logout
-    // },
-    // login: (state, { payload }: PayloadAction<AuthData>) => {
-    //   state.authData = payload; // Set user data on login
-    // },
+    setAuthData: (state, action: PayloadAction<MyToken>) => {
+      console.log(state, action);
+      state.authData = action.payload;
+    },
+    logout: (state) => {
+      state.authData = null;
+      localStorage.removeItem('authToken');
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -203,18 +207,13 @@ const authUserSlice = createSlice({
           state.token = null;
         }
       )
-
-      // Handling signup
       .addCase(signupUserThunk.pending, (state) => {
         state.isFetching = true;
+        state.error = null; // Reset the error on a new request
       })
-      .addCase(signupUserThunk.fulfilled, (state, { payload }) => {
+      .addCase(signupUserThunk.fulfilled, (state, { payload: { data } }) => {
         state.isFetching = false;
-        console.log(payload);
-        state.authData.push({
-          ...payload,
-          //id: uuidv4(),
-        });
+        state.authData = data;
       })
       .addCase(
         signupUserThunk.rejected,
@@ -228,7 +227,7 @@ const authUserSlice = createSlice({
 
 const { reducer, actions } = authUserSlice;
 
-//export const { logout, login } = actions;
+export const { logout, setAuthData } = actions;
 
 export default reducer;
 

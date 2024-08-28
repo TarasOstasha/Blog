@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
 const createHttpError = require('http-errors');
-//const User = require('../models/User'); // Assuming you have a User model
+const { User } = require('./../models');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 module.exports.loginUser = async (req, res, next) => {
   const { email, password } = req.body;
@@ -26,7 +28,7 @@ module.exports.loginUser = async (req, res, next) => {
     const token = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET, // Use a secret key from your environment variables
-      { expiresIn: '1h' }, // Token expiration time
+      { expiresIn: '1h' } // Token expiration time
     );
 
     // Step 4: Send the token and user data to the client
@@ -45,8 +47,8 @@ module.exports.loginUser = async (req, res, next) => {
       return next(
         createHttpError(
           error.response.status,
-          'Server responded with a non-2xx status',
-        ),
+          'Server responded with a non-2xx status'
+        )
       );
     } else if (error.request) {
       return next(createHttpError(504, 'No response received from the server'));
@@ -57,28 +59,42 @@ module.exports.loginUser = async (req, res, next) => {
 };
 
 module.exports.registerUser = async (req, res, next) => {
-  const { body } = req;
-  console.log(body);
+  const { name, email, password } = req.body;
+
   try {
-    // const existingUser = await User.findOne({ email });
-    // if (existingUser) {
-    //   return res.status(400).json({ message: 'User already exists' });
-    // }
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
 
-    // Hash password and save user to the database
     const hashedPassword = await bcrypt.hash(password, 10);
-    //const newUser = new User({ name, email, password: hashedPassword });
-    //await newUser.save();
 
-    res.status(201).json({ message: 'User registered successfully!' });
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: newUser.id, name: newUser.name, email: newUser.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    const responseUser = _.omit(newUser.toJSON(), ['createdAt', 'updatedAt']);
+    res.status(201).json({
+      message: 'User registered successfully!',
+      data: responseUser,
+      token,
+    });
   } catch (error) {
-    // Handle error
     if (error.response) {
       return next(
         createHttpError(
           error.response.status,
-          'Server responded with a non-2xx status',
-        ),
+          'Server responded with a non-2xx status'
+        )
       );
     } else if (error.request) {
       return next(createHttpError(504, 'No response received from the server'));

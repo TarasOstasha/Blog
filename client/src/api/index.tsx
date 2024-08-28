@@ -31,7 +31,7 @@ export const loginUser = (email: string, password: string) => {
 // For signup action
 export const signupUser = (name: string, email: string, password: string) => {
   const data = { name, email, password };
-  console.log(data, '<< signup data');
+  //console.log(data, '<< signup data');
   return axiosInstance.post('/auth/signup', data);
 };
 
@@ -46,12 +46,12 @@ export const getThumbnailGalleryData = (limit?: number, offset?: number) => {
 export const deleteThumbnailGalleryItemById = (id: number) =>
   axiosInstance.delete(`/upload/${id}`);
 
-export interface ImageData1 {
-  id: number;
-  fileName: string;
-  title: string;
-  author: string;
-}
+// export interface ImageData1 {
+//   id: number;
+//   fileName: string;
+//   title: string;
+//   author: string;
+// }
 export const updateThumbnailGalleryItem = (
   id: number,
   data: Partial<ImageData>

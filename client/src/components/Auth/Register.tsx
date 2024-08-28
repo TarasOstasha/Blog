@@ -30,7 +30,7 @@ const Register: React.FC<any> = ({ signupUser }) => {
     values: RegisterUserData,
     { resetForm }: FormikHelpers<RegisterUserData>
   ) => {
-    console.log(values, '<< values register');
+    //console.log(values, '<< values register');
     signupUser(values.name, values.email, values.password);
     // resetForm(); // Uncomment if you want to reset the form after submission
   };

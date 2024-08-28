@@ -21,10 +21,21 @@ export interface AuthData {
   confirmPassword: string;
 }
 
-export interface RegisterData {
+// export interface RegisterData {
+//   name: string;
+//   email: string;
+//   password: string;
+// }
+export interface UserData {
+  id: number;
   name: string;
   email: string;
   password: string;
+}
+
+export interface RegisterData {
+  message: string;
+  data: UserData;
 }
 export interface LoginData {
   name: string;
