@@ -1,43 +1,28 @@
 import { AppBar, Toolbar, Typography, Grid } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { jwtDecode } from 'jwt-decode';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { connect } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
-import { setAuthData, logout } from '../../store/slices/authSlice'; //'./store/slices/authSlice';
-//import { HeaderProps, MyToken } from '../../interfaces';
-//import { getUserDataThunk } from '../../store/slices/authSlice';
-
-interface HeaderProps {
-  userName: string | undefined;
-  setAuthData: (token: MyToken) => void;
-  logOut: () => void;
-}
-
-interface MyToken {
-  id: number;
-  name: string;
-  email: string;
-  exp: number;
-  iat: number;
-}
+import { setAuthData, logout } from '../../store/slices/authSlice';
+import { HeaderProps, MyToken } from '../../interfaces/registerTypes';
 
 const Header: React.FC<HeaderProps> = ({ userName, setAuthData, logOut }) => {
+  //const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    console.log(token);
+    console.log(userName);
     if (token) {
       try {
         if (token.split('.').length !== 3) {
           throw new Error('Invalid token format');
         }
         const decodedToken = jwtDecode<MyToken>(token);
-        console.log('Decoded token:', decodedToken);
         setAuthData(decodedToken);
+        //setIsLogin(true);
       } catch (error) {
-        console.error('Invalid token:', error);
         localStorage.removeItem('authToken');
       }
     }
@@ -83,26 +68,23 @@ const Header: React.FC<HeaderProps> = ({ userName, setAuthData, logOut }) => {
           </Grid>
           <Grid item xs={12} md={1}>
             {userName ? (
-              <>
-                <Typography variant="h6">{userName}</Typography>
-              </>
+              <Typography variant="h6">{userName}</Typography>
             ) : (
-              <>
-                <Typography variant="h6">
-                  <Link
-                    to="/login"
-                    style={{
-                      cursor: 'pointer',
-                      color: 'inherit',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    Login
-                  </Link>
-                </Typography>
-              </>
+              <Typography variant="h6">
+                <Link
+                  to="/login"
+                  style={{
+                    cursor: 'pointer',
+                    color: 'inherit',
+                    textDecoration: 'none',
+                  }}
+                >
+                  Login
+                </Link>
+              </Typography>
             )}
           </Grid>
+          {/* {!isLogin ? ( */}
           <Grid item xs={12} md={1}>
             <Typography
               variant="h6"
@@ -116,15 +98,20 @@ const Header: React.FC<HeaderProps> = ({ userName, setAuthData, logOut }) => {
               Logout
             </Typography>
           </Grid>
+          {/* // ) : (
+          //   ''
+          // )} */}
         </Grid>
       </Toolbar>
     </AppBar>
   );
 };
 
-const mapStateToProps = ({ auth: { authData } }: RootState) => ({
-  userName: authData?.name || null, // Access name directly from authData
-});
+const mapStateToProps = ({ auth: { authData } }: RootState) => {
+  return {
+    userName: authData?.name || null,
+  };
+};
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   setAuthData: (token: MyToken) => dispatch(setAuthData(token)),
@@ -132,5 +119,3 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
-
-//export default Header;

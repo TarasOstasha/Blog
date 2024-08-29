@@ -23,10 +23,8 @@ export const getCarouselData = (limit: number, offset: number) => {
 };
 
 // For login action
-export const loginUser = (email: string, password: string) => {
-  const query = queryString.stringify({ email, password });
-  return axiosInstance.post(`/auth/login/?${query}`);
-};
+export const loginUser = (email: string, password: string) =>
+  axiosInstance.post('/auth/login', { email, password });
 
 // For signup action
 export const signupUser = (name: string, email: string, password: string) => {

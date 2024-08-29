@@ -28,13 +28,22 @@ const Login: React.FC<any> = ({ loginUser, userData, isFetching, error }) => {
     password: '',
   };
 
-  const handleFormSubmit = (
+  const handleFormSubmit = async (
     values: LoginUserData,
     { resetForm }: FormikHelpers<LoginUserData>
   ) => {
-    console.log(values, '<< values login');
-    loginUser(values.email, values.password);
-    // resetForm(); // Uncomment if you want to reset the form after submission
+    try {
+      const { payload } = await loginUser(values.email, values.password);
+      console.log(payload.message);
+      if (payload && payload.message === 'Login successful') {
+        navigate('/');
+      } else {
+        console.error('Login failed:', payload);
+      }
+      resetForm(); // Uncomment if you want to reset the form after submission
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

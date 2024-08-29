@@ -8,3 +8,13 @@ Content-Type: application/json
   "email": "t@t.com",
   "password": "111111"
 }
+
+### 200 {}
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "garbiche.bucket90@gmail.com",
+  "password": "111111"
+}

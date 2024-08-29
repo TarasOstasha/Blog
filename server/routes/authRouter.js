@@ -6,10 +6,9 @@ const { authController } = require('../controllers');
 // api/auth
 const authRouter = Router();
 
-authRouter
-  .route('/signup')
-  //.get(authController.getUsers)
-  .post(authController.registerUser);
+authRouter.route('/signup').post(authController.registerUser);
+
+authRouter.route('/login').post(authController.loginUser);
 
 // authRouter
 //   .route('/:id')
