@@ -199,7 +199,7 @@ export const getThumbnailGalleryThunk = createAsyncThunk<
     const {
       data: { data },
     } = await API.getThumbnailGalleryData(limit, offset);
-    console.log(data, '<< data');
+    //console.log(data, '<< data');
     return data;
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {

@@ -8,8 +8,14 @@ import { MyToken } from '../../interfaces/registerTypes';
 
 const AUTH_SLICE_NAME = 'auth';
 
+// interface AuthState {
+//   authData: UserData[] | null;
+//   isFetching: boolean;
+//   error: string | null;
+// }
+
 interface AuthState {
-  authData: UserData[] | null;
+  authData: UserData | null;
   isFetching: boolean;
   error: string | null;
 }
@@ -58,7 +64,7 @@ export const loginUserThunk = createAsyncThunk<
     try {
       const { data } = await API.loginUser(email, password);
       localStorage.setItem('authToken', data.token);
-      console.log(data, '<< data loginUserThunk');
+
       return data;
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
@@ -98,11 +104,9 @@ const authUserSlice = createSlice({
   reducers: {
     setAuthData: (state, action: PayloadAction<MyToken>) => {
       state.authData = action.payload;
-      console.log(state.authData, '<< state.authData authUserSlice');
     },
     logout: (state) => {
       state.authData = null;
-      localStorage.removeItem('authToken');
     },
   },
   extraReducers: (builder) => {
