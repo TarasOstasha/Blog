@@ -1,20 +1,42 @@
 ### 201 {}
 
-POST http://localhost:5000/api/auth/signup
+POST http://localhost:5000/api/users
 Content-Type: application/json
 
 {
-  "name": "Testtt",
-  "email": "t@t.com",
-  "password": "111111"
+  "id": 4,
+  "name":"Testovych",
+  "email":"t@t.com",
+  "role": "user"
 }
 
 ### 200 {}
 
-POST http://localhost:5000/api/auth/login
+GET http://localhost:5000/api/users?limit=2&skip=1
+
+### 200 {}
+
+GET http://localhost:5000/api/users/4
+
+### 200 {}
+
+GET http://localhost:5000/api/users
+
+
+### 200 {}
+
+GET http://localhost:5000/api/users/65bfb4b98f78c3d93b668251
+
+### 204 {}
+
+DELETE http://localhost:5000/api/users/1
+
+
+### 200 {}
+
+PATCH http://localhost:5000/api/users/35
 Content-Type: application/json
 
 {
-  "email": "garbiche.bucket90@gmail.com",
-  "password": "111111"
+  "role":"admin"
 }
