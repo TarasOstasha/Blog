@@ -1,20 +1,29 @@
-### 201 {}
-
-POST http://localhost:5000/api/auth/signup
+### add user from admin
+POST http://localhost:5000/api/users
 Content-Type: application/json
 
 {
-  "name": "Testtt",
-  "email": "t@t.com",
-  "password": "111111"
+  "name": "Testt1t",
+  "email": "t1@t.com",
+  "password": "11111111"
 }
 
-### 200 {}
+### 200 {} all users
+GET http://localhost:5000/api/users
 
-POST http://localhost:5000/api/auth/login
+### 200 paginate users
+GET http://localhost:5000/api/users?page=1&results=5
+
+### 200
+GET http://localhost:5000/api/users/20
+
+### 200
+DELETE http://localhost:5000/api/users/11
+
+### 200
+PATCH  http://localhost:5000/api/users/20
 Content-Type: application/json
 
 {
-  "email": "garbiche.bucket90@gmail.com",
-  "password": "111111"
+    "name": "test 123"
 }
