@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const chalk = require('chalk');
 const createHttpError = require('http-errors');
 const { User } = require('./../models');
 
@@ -21,14 +22,9 @@ module.exports.createUser = async (req, res, next) => {
 };
 // --------------------------------------------------------------------------------------------------------
 module.exports.getUsers = async (req, res, next) => {
-  const { limit, offset } = req.pagination;
+  //const { limit, offset } = req.pagination;
+  const { limit, offset } = req.body;
   try {
-    // const foundUsers1 = await User.findByPk(37, {
-    //   attributes: {
-    //     include: ['role'],
-    //   },
-    // });
-    // console.log(foundUsers1);
     const foundUsers = await User.findAll({
       raw: true,
       attributes: {
@@ -127,6 +123,7 @@ module.exports.updateOrCreateUser = async (req, res, next) => {
 /// -------------------------------------------------------------------------------------
 module.exports.deleteUserById = async (req, res, next) => {
   const { id } = req.params;
+  console.log(chalk(id));
   try {
     const deletedUserCount = await User.destroy({ where: { id } });
     if (deletedUserCount === 0) {

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
+import { getUsersThunk } from '../../store/slices/usersSlice';
+import { PayloadAction } from '@reduxjs/toolkit';
 import { FetchError } from '../../interfaces';
-import {
-  getUsersThunk,
-  updateUserRoleThunk,
-  deleteUserThunk,
-} from '../../store/slices/usersSlice';
 import {
   Table,
   TableBody,
@@ -19,38 +16,30 @@ import {
   Typography,
   Button,
   TablePagination,
-  Select,
-  MenuItem,
 } from '@mui/material';
-import { UserListProps } from '../../interfaces/userTypes';
 
-// interface UserListProps {
-//   users: User[];
-//   isFetching: boolean;
-//   error: FetchError | null;
-//   getUsers: () => void;
-//   updateUserRole: (id: string, role: string) => void;
-//   deleteUser: (id: string) => void;
-// }
+interface UserListProps {
+  users: User[];
+  isFetching: boolean;
+  error: FetchError | null;
+  getUsers: () => void;
+}
 
-// interface User {
-//   id: string;
-//   name: string;
-//   email: string;
-//   role: string;
-// }
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+}
 
 const UserList: React.FC<UserListProps> = ({
   users,
   isFetching,
   error,
   getUsers,
-  updateUserRole,
-  deleteUser,
 }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [editedRoles, setEditedRoles] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     getUsers();
@@ -67,25 +56,13 @@ const UserList: React.FC<UserListProps> = ({
     setPage(0);
   };
 
-  const handleRoleChange = (id: string, newRole: string) => {
-    setEditedRoles({
-      ...editedRoles,
-      [id]: newRole,
-    });
-  };
-
-  const handleSave = (id: string) => {
-    const newRole = editedRoles[id];
-    if (newRole) {
-      updateUserRole(id, newRole);
-    }
-  };
-
   const handleDelete = (id: string) => {
-    deleteUser(id);
+    // Implement delete logic here
+    console.log(`Delete user with id: ${id}`);
   };
 
   const handleUpdate = (id: string) => {
+    // Implement update logic here
     console.log(`Update user with id: ${id}`);
   };
 
@@ -94,13 +71,8 @@ const UserList: React.FC<UserListProps> = ({
   }
 
   if (error) {
-    return (
-      <Typography color="error">
-        Error: {error.errors || 'An unknown error occurred.'}
-      </Typography>
-    );
+    return <Typography color="error">Error: {error.errors}</Typography>;
   }
-
   return (
     <Paper>
       <TableContainer>
@@ -117,31 +89,13 @@ const UserList: React.FC<UserListProps> = ({
           <TableBody>
             {users
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((user, index) => (
-                <TableRow key={index}>
-                  <TableCell>{index + 1}</TableCell>
+              .map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.role}</TableCell>
                   <TableCell>
-                    <Select
-                      value={editedRoles[user.id] || user.role}
-                      onChange={(e) =>
-                        handleRoleChange(user.id, e.target.value)
-                      }
-                    >
-                      <MenuItem value="user">User</MenuItem>
-                      <MenuItem value="admin">Admin</MenuItem>
-                    </Select>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleSave(user.id)}
-                      sx={{ marginRight: 1 }}
-                    >
-                      Save
-                    </Button>
                     <Button
                       variant="contained"
                       color="primary"
@@ -182,9 +136,8 @@ const mapStateToProps = ({ usersList }: RootState) => ({
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   getUsers: () => dispatch(getUsersThunk()),
-  updateUserRole: (id: string, role: string) =>
-    dispatch(updateUserRoleThunk({ id, role })),
-  deleteUser: (id: string) => dispatch(deleteUserThunk(id)),
+  //deleteUser: id => dispatch(deleteUserThunk(id)),
+  //getUsersTask: () => dispatch(getUserTasksThunk()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);

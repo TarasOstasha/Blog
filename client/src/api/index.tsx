@@ -55,7 +55,11 @@ export const updateThumbnailGalleryItem = (
 
 export const getUsers = () => axiosInstance.get('/users');
 
-//export const deleteUser = (id) => axiosInstance.delete(`/users/${id}`);
+export const updateUserRole = (id: string, role: string) =>
+  axiosInstance.patch(`/users/${id}`, { role });
+
+export const deleteUserById = (id: string) =>
+  axiosInstance.delete(`/users/${id}`);
 
 export default axiosInstance;
 
