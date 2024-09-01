@@ -18,12 +18,12 @@ GET http://localhost:5000/api/users?page=1&results=5
 GET http://localhost:5000/api/users/20
 
 ### 200
-DELETE http://localhost:5000/api/users/11
+DELETE http://localhost:5000/api/users/35
 
 ### 200
-PATCH  http://localhost:5000/api/users/20
+PATCH  http://localhost:5000/api/users/37
 Content-Type: application/json
 
 {
-    "name": "test 123"
+    "role": "admin"
 }

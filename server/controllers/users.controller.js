@@ -25,7 +25,10 @@ module.exports.getUsers = async (req, res, next) => {
   try {
     const foundUsers = await User.findAll({
       raw: true,
-      attributes: { exclude: ['createdAt', 'updatedAt', 'password'] },
+      attributes: {
+        exclude: ['createdAt', 'updatedAt', 'password'],
+        include: ['role'],
+      },
       limit,
       offset,
       order: ['id'],
