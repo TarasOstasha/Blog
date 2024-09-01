@@ -23,11 +23,16 @@ module.exports.createUser = async (req, res, next) => {
 module.exports.getUsers = async (req, res, next) => {
   const { limit, offset } = req.pagination;
   try {
+    // const foundUsers1 = await User.findByPk(37, {
+    //   attributes: {
+    //     include: ['role'],
+    //   },
+    // });
+    // console.log(foundUsers1);
     const foundUsers = await User.findAll({
       raw: true,
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'password'],
-        include: ['role'],
       },
       limit,
       offset,
