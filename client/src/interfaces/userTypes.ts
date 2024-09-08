@@ -4,7 +4,7 @@ export interface UserListProps {
   users: User[];
   isFetching: boolean;
   error: FetchError | null;
-  getUsers: () => void;
+  getUsers: () => (limit: number, offset: number) => void;
   updateUserRole: (id: string, role: string) => void;
   deleteUser: (id: string) => void;
 }
@@ -25,4 +25,5 @@ export interface UsersState {
   users: User[];
   isFetching: boolean;
   error: FetchError | null;
+  totalCount: number;
 }

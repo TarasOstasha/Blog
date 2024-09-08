@@ -33,28 +33,56 @@ const initialState: UsersState = {
   users: [],
   isFetching: false,
   error: null,
+  totalCount: 0,
 };
 
+// export const getUsersThunk = createAsyncThunk<
+//   User[], // Expecting an array of User objects
+//   { limit: number; offset: number }, // payload
+//   { rejectValue: FetchError }
+// >(
+//   `${USERS_SLICE_NAME}/getUsers`,
+//   async ({ limit, offset }, { rejectWithValue }) => {
+//     try {
+//       const {
+//         data: { data },
+//       } = await API.getUsers(limit, offset);
+//       console.log(data, 'data getUsersThunk');
+//       return data; // Returning the array of users
+//     } catch (err) {
+//       if (axios.isAxiosError(err) && err.response) {
+//         return rejectWithValue({
+//           errors: err.response.data.message || 'Login failed',
+//         });
+//       }
+//       return rejectWithValue({ errors: 'An unknown error occurred' });
+//     }
+//   }
+// );
+
 export const getUsersThunk = createAsyncThunk<
-  User[], // Expecting an array of User objects
-  void, // No payload is expected if not used
+  { users: User[]; totalCount: number }, // Expecting both users array and total count
+  { limit: number; offset: number }, // Payload (limit and offset)
   { rejectValue: FetchError }
->(`${USERS_SLICE_NAME}/getUsers`, async (_, { rejectWithValue }) => {
-  try {
-    const {
-      data: { data },
-    } = await API.getUsers();
-    console.log(data, 'data getUsersThunk');
-    return data; // Returning the array of users
-  } catch (err) {
-    if (axios.isAxiosError(err) && err.response) {
-      return rejectWithValue({
-        errors: err.response.data.message || 'Login failed',
-      });
+>(
+  `${USERS_SLICE_NAME}/getUsers`,
+  async ({ limit, offset }, { rejectWithValue }) => {
+    try {
+      const response = await API.getUsers(limit, offset);
+      const { data: users, total } = response.data; // Assuming API returns total count in response
+
+      console.log(users, 'data getUsersThunk');
+      return { users, totalCount: total }; // Returning users array and total count
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        return rejectWithValue({
+          errors: err.response.data.message || 'Fetching users failed',
+        });
+      }
+      return rejectWithValue({ errors: 'An unknown error occurred' });
     }
-    return rejectWithValue({ errors: 'An unknown error occurred' });
   }
-});
+);
 
 export const updateUserRoleThunk = createAsyncThunk<
   User, // Expecting a single User object in the response
@@ -108,9 +136,13 @@ const usersSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getUsersThunk.fulfilled, (state, { payload }) => {
-      console.log(payload);
+      // console.log(payload);
+      // state.isFetching = false;
+      // state.users = payload; // payload is now an array of users
+      const { users, totalCount } = payload; // Extract users and totalCount from payload
       state.isFetching = false;
-      state.users = payload; // payload is now an array of users
+      state.users = users;
+      state.totalCount = totalCount;
     });
     builder.addCase(getUsersThunk.rejected, (state, { payload }) => {
       state.isFetching = false;

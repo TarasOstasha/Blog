@@ -22,8 +22,8 @@ module.exports.createUser = async (req, res, next) => {
 };
 // --------------------------------------------------------------------------------------------------------
 module.exports.getUsers = async (req, res, next) => {
-  //const { limit, offset } = req.pagination;
-  const { limit, offset } = req.body;
+  const { limit, offset } = req.pagination || {};
+  //const { limit, offset } = req.body;
   try {
     const foundUsers = await User.findAll({
       raw: true,
@@ -33,8 +33,9 @@ module.exports.getUsers = async (req, res, next) => {
       limit,
       offset,
       order: ['id'],
-    }); // excluded data from response
-    res.status(200).send({ data: foundUsers });
+    });
+    const totalCount = await User.count();
+    res.status(200).send({ data: foundUsers, total: totalCount });
   } catch (error) {
     next(error);
   }

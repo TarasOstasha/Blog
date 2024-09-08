@@ -53,7 +53,11 @@ export const updateThumbnailGalleryItem = (
 
 //export const createUser = data => axiosInstance.post('/users', data)
 
-export const getUsers = () => axiosInstance.get('/users');
+export const getUsers = (limit: number, offset: number) => {
+  const query = queryString.stringify({ limit, offset });
+  return axiosInstance.get(`/users/?${query}`);
+};
+//axiosInstance.get('/users');
 
 export const updateUserRole = (id: string, role: string) =>
   axiosInstance.patch(`/users/${id}`, { role });
