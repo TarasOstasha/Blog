@@ -33,7 +33,7 @@ module.exports.paginateUsers = (req, res, next) => {
   //console.log(req.query, 'paginate');
 
   // Extract limit and offset from the query
-  let { limit, offset } = req.query;
+  let { limit = 1, offset = 5 } = req.query;
 
   // Convert to numbers
   limit = Number(limit);

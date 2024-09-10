@@ -5,8 +5,9 @@ Content-Type: application/json
 
 {
   "name": "Testtt",
-  "email": "t@t.com",
-  "password": "111111"
+  "email": "t@1247863t.com",
+  "password": "1111",
+  "role": "user"
 }
 
 ### 200 {}
@@ -16,5 +17,5 @@ Content-Type: application/json
 
 {
   "email": "garbiche.bucket90@gmail.com",
-  "password": "111111"
+  "password": "11"
 }

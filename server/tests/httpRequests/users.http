@@ -4,8 +4,9 @@ Content-Type: application/json
 
 {
   "name": "Testt1t",
-  "email": "t1@t.com",
-  "password": "11111111"
+  "email": "t1@t12.com",
+  "password": "11111111",
+  "role": "user"
 }
 
 ### 200 {} all users

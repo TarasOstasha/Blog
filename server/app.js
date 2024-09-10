@@ -3,6 +3,7 @@ const router = require('./routes');
 const cors = require('cors');
 const app = express();
 const path = require('path');
+const { errorHandlers } = require('./middleware');
 
 const corsOPtions = {
   origin: '*',
@@ -15,6 +16,8 @@ app.use(cors(corsOPtions));
 app.use(express.json());
 
 app.use('/api', router);
+
+app.use(errorHandlers.dbErrorHandler, errorHandlers.errorHandler);
 
 // Serve static files from the build folder
 // app.use(express.static(path.join(__dirname, '../client/build')));
