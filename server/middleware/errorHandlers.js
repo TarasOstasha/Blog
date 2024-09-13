@@ -3,12 +3,13 @@ const createHttpError = require('http-errors');
 
 module.exports.dbErrorHandler = (err, req, res, next) => {
   if (err instanceof ValidationError) {
-    const errors = err.errors.map((e) => ({ status: 422, title: e.message }));
+    const errors = err.errors.map((err) => ({
+      status: 422,
+      title: err.message,
+    }));
     return res.status(422).send(errors);
-  }
-
-  if (err instanceof BaseError) {
-    next(createHttpError(500, 'Database Error'));
+  } else if (err instanceof BaseError) {
+    return next(createHttpError(500, 'Database Error'));
   }
   next(err);
 };
