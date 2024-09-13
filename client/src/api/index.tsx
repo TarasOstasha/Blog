@@ -29,7 +29,6 @@ export const loginUser = (email: string, password: string) =>
 // For signup action
 export const signupUser = (name: string, email: string, password: string) => {
   const data = { name, email, password };
-  //console.log(data, '<< signup data');
   return axiosInstance.post('/auth/signup', data);
 };
 

@@ -2,13 +2,12 @@ const { ValidationError, BaseError } = require('sequelize');
 
 module.exports.dbErrorHandler = (err, req, res, next) => {
   if (err instanceof ValidationError) {
-    const errors = err.errors.map((err) => ({
-      status: 422,
-      title: err.message,
-    }));
+    const errors = err.errors.map((e) => ({ status: 422, title: e.message }));
     return res.status(422).send(errors);
-  } else if (err instanceof BaseError) {
-    return res.status(500).send({ status: 500, title: 'DataBase Error' });
+  }
+
+  if (err instanceof BaseError) {
+    next(createHttpError(500, 'Database Error'));
   }
   next(err);
 };
