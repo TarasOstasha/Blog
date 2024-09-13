@@ -1,4 +1,5 @@
 const { ValidationError, BaseError } = require('sequelize');
+const createHttpError = require('http-errors');
 
 module.exports.dbErrorHandler = (err, req, res, next) => {
   if (err instanceof ValidationError) {
