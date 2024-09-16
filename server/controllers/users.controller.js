@@ -24,6 +24,7 @@ module.exports.createUser = async (req, res, next) => {
 module.exports.getUsers = async (req, res, next) => {
   const { limit, offset } = req.pagination || {};
   //const { limit, offset } = req.body;
+  console.log(chalk.red(limit, offset));
   try {
     const foundUsers = await User.findAll({
       raw: true,
