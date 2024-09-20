@@ -1,3 +1,4 @@
+const queryParser = require('query-parser-express');
 const express = require('express');
 const router = require('./routes');
 const cors = require('cors');
@@ -14,6 +15,13 @@ app.use('/images', express.static(path.join(__dirname, 'public/images')));
 app.use(cors(corsOPtions));
 
 app.use(express.json());
+
+app.use(
+  queryParser({
+    parseBoolean: true,
+    parseNumber: true,
+  })
+);
 
 app.use('/api', router);
 

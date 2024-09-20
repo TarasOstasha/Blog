@@ -50,14 +50,15 @@ const { USER_PAGINATION_SCHEMA } = require('../utils/validationSchemas');
 
 //   next();
 // };
+const queryParser = require('query-parser-express');
 
 module.exports.paginateUsers = async (req, res, next) => {
-  console.log(chalk.yellow(JSON.stringify(req.query)));
+  //console.log(chalk.yellow(JSON.stringify(req.query)));
   let { limit = 5, offset = 0 } = req.query;
-
+  console.log(chalk.yellow(limit, offset));
   // Convert to numbers
-  limit = Number(limit);
-  offset = Number(offset);
+  // limit = Number(limit);
+  // offset = Number(offset);
 
   const isLimitValid = await USER_PAGINATION_SCHEMA.isValid({ limit });
   const isOffsetValid = await USER_PAGINATION_SCHEMA.isValid({ offset });
