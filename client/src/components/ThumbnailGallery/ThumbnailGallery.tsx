@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Container,
   ImageList,
@@ -131,126 +132,132 @@ const ThumbnailGallery: React.FC<GalleryProps> = ({
     <Container sx={{ paddingTop: 4 }}>
       <ImageList sx={{ width: 1150 }} cols={4}>
         {galleryData.map((item, index) => (
-          <ImageListItem
+          <Link
             key={item.id || index}
-            sx={{
-              position: 'relative',
-              display: 'flex', // Ensure that the ImageListItem itself is a flex container
-              flexDirection: 'column',
-              '&:hover .MuiImageListItemBar-root': {
-                '& .actionButtons': {
-                  opacity: 1,
-                  visibility: 'visible',
-                  cursor: 'pointer',
-                },
-              },
-            }}
+            to={`/gallery/${item.id}`}
+            style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            {editMode === item.id ? (
-              <Box
-                component="form"
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexGrow: 1, // Allow the Box to grow and fill the parent
-                  p: 2,
-                  justifyContent: 'space-between',
-                }}
-              >
-                <TextField
-                  label="Title"
-                  value={editData.title || ''}
-                  onChange={(e) =>
-                    setEditData({ ...editData, title: e.target.value })
-                  }
-                  fullWidth
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Author"
-                  value={editData.author || ''}
-                  onChange={(e) =>
-                    setEditData({ ...editData, author: e.target.value })
-                  }
-                  fullWidth
-                  sx={{ mb: 2 }}
-                />
-                <TextField
-                  label="Image URL"
-                  value={editData.fileName || ''}
-                  onChange={(e) =>
-                    setEditData({ ...editData, fileName: e.target.value })
-                  }
-                  fullWidth
-                  sx={{ mb: 2 }}
-                />
+            <ImageListItem
+              key={item.id || index}
+              sx={{
+                position: 'relative',
+                display: 'flex', // Ensure that the ImageListItem itself is a flex container
+                flexDirection: 'column',
+                '&:hover .MuiImageListItemBar-root': {
+                  '& .actionButtons': {
+                    opacity: 1,
+                    visibility: 'visible',
+                    cursor: 'pointer',
+                  },
+                },
+              }}
+            >
+              {editMode === item.id ? (
                 <Box
-                  sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}
+                  component="form"
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1, // Allow the Box to grow and fill the parent
+                    p: 2,
+                    justifyContent: 'space-between',
+                  }}
                 >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSaveEdit}
-                    sx={{ mr: 1 }}
+                  <TextField
+                    label="Title"
+                    value={editData.title || ''}
+                    onChange={(e) =>
+                      setEditData({ ...editData, title: e.target.value })
+                    }
+                    fullWidth
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    label="Author"
+                    value={editData.author || ''}
+                    onChange={(e) =>
+                      setEditData({ ...editData, author: e.target.value })
+                    }
+                    fullWidth
+                    sx={{ mb: 2 }}
+                  />
+                  <TextField
+                    label="Image URL"
+                    value={editData.fileName || ''}
+                    onChange={(e) =>
+                      setEditData({ ...editData, fileName: e.target.value })
+                    }
+                    fullWidth
+                    sx={{ mb: 2 }}
+                  />
+                  <Box
+                    sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}
                   >
-                    Save
-                  </Button>
-                  <Button variant="outlined" onClick={handleCancelEdit}>
-                    Cancel
-                  </Button>
-                </Box>
-              </Box>
-            ) : (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexGrow: 1, // Ensure this Box also fills the parent
-                  p: 2,
-                  justifyContent: 'space-between',
-                }}
-              >
-                <img
-                  src={`${url}${item.fileName}?w=248&fit=crop&auto=format`}
-                  srcSet={`${url}${item.fileName}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                  loading="lazy"
-                  style={{ maxWidth: '100%', maxHeight: '100%' }} // Ensure the image does not overflow
-                />
-                <ImageListItemBar
-                  title={item.title}
-                  subtitle={<span>by: {item.author}</span>}
-                  actionIcon={
-                    <Box
-                      className="actionButtons"
-                      sx={{
-                        display: 'flex',
-                        gap: '8px',
-                        opacity: 0,
-                        visibility: 'hidden',
-                        transition: 'opacity 0.3s, visibility 0.3s',
-                      }}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleSaveEdit}
+                      sx={{ mr: 1 }}
                     >
-                      <IconButton
-                        aria-label={`edit ${item.title}`}
-                        onClick={() => handleEdit(item)}
-                        sx={{ color: 'rgba(255, 255, 255, 0.8)' }}
+                      Save
+                    </Button>
+                    <Button variant="outlined" onClick={handleCancelEdit}>
+                      Cancel
+                    </Button>
+                  </Box>
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1, // Ensure this Box also fills the parent
+                    p: 2,
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <img
+                    src={`${url}${item.fileName}?w=248&fit=crop&auto=format`}
+                    srcSet={`${url}${item.fileName}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                    alt={item.title}
+                    loading="lazy"
+                    style={{ maxWidth: '100%', maxHeight: '100%' }} // Ensure the image does not overflow
+                  />
+                  <ImageListItemBar
+                    title={item.title}
+                    subtitle={<span>by: {item.author}</span>}
+                    actionIcon={
+                      <Box
+                        className="actionButtons"
+                        sx={{
+                          display: 'flex',
+                          gap: '8px',
+                          opacity: 0,
+                          visibility: 'hidden',
+                          transition: 'opacity 0.3s, visibility 0.3s',
+                        }}
                       >
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        aria-label={`delete ${item.title}`}
-                        onClick={() => handleDelete(item.id)}
-                        sx={{ color: 'rgba(255, 255, 255, 0.8)' }}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </Box>
-                  }
-                />
-              </Box>
-            )}
-          </ImageListItem>
+                        <IconButton
+                          aria-label={`edit ${item.title}`}
+                          onClick={() => handleEdit(item)}
+                          sx={{ color: 'rgba(255, 255, 255, 0.8)' }}
+                        >
+                          <Edit />
+                        </IconButton>
+                        <IconButton
+                          aria-label={`delete ${item.title}`}
+                          onClick={() => handleDelete(item.id)}
+                          sx={{ color: 'rgba(255, 255, 255, 0.8)' }}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </Box>
+                    }
+                  />
+                </Box>
+              )}
+            </ImageListItem>
+          </Link>
         ))}
       </ImageList>
     </Container>

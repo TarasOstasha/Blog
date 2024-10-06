@@ -11,6 +11,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import GalleryAdminForm from './pages/GalleryAdminForm/GalleryAdminForm';
 import AdminUsers from './pages/AdminUsers/AdminUsers';
+import ThumbnailGalleryItem from './components/ThumbnailGalleryItem/ThumbnailGalleryItem';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/gallery" element={<GalleryAdminForm />} />
+          <Route path="/gallery/:id" element={<ThumbnailGalleryItem />} />
           <Route path="/users" element={<AdminUsers />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
