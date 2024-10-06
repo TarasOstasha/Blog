@@ -61,6 +61,9 @@ const Carousel: React.FC<CarouselProps> = ({
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: false,
+    // autoplay: true,
+    autoplaySpeed: 3000,
   };
 
   if (isFetching) {
@@ -88,7 +91,8 @@ const Carousel: React.FC<CarouselProps> = ({
   // }, []);
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: '0 auto', paddingTop: 4 }}>
+    // <Box sx={{ maxWidth: 1200, margin: '0 auto', paddingTop: 4 }}>
+    <Box className={styles.carouselBox}>
       <Slider {...settings}>
         {carouselData.map((item, index) => (
           <Box key={index} sx={{ textAlign: 'center' }}>
