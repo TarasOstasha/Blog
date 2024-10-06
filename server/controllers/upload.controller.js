@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const { Gallery } = require('./../models');
 const _ = require('lodash');
+const IMG_PATH = '/images/gallery/';
 
 module.exports.uploadImg = async (req, res, next) => {
   const { title, author } = req.body; // Text fields sent with the form
@@ -14,12 +15,12 @@ module.exports.uploadImg = async (req, res, next) => {
     const newImage = await Gallery.create({
       title,
       author,
-      fileName: `/images/gallery/${fileName}`,
+      fileName: `${IMG_PATH}${fileName}`,
     });
 
     res.status(200).json({
       message: 'File uploaded successfully',
-      fileUrl: `/images/gallery/${fileName}`, // Path to the image
+      fileUrl: `${IMG_PATH}${fileName}`, // Path to the image
       title,
       author,
       image: newImage, // Return the saved image data

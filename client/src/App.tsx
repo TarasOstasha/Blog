@@ -10,6 +10,7 @@ import Authentication from './pages/Authentification/Authentication';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import GalleryAdminForm from './pages/GalleryAdminForm/GalleryAdminForm';
+import AdminUsers from './pages/AdminUsers/AdminUsers';
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/gallery" element={<GalleryAdminForm />} />
+          <Route path="/users" element={<AdminUsers />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

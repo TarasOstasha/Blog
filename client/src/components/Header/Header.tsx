@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, Grid } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Header.module.scss';
 import { connect } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
@@ -10,23 +10,25 @@ import { setAuthData, logout } from '../../store/slices/authSlice';
 import { HeaderProps, MyToken } from '../../interfaces/registerTypes';
 
 const Header: React.FC<HeaderProps> = ({ userName, setAuthData, logOut }) => {
-  //const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem('authToken');
-    console.log(userName);
     if (token) {
       try {
-        if (token.split('.').length !== 3) {
-          throw new Error('Invalid token format');
-        }
         const decodedToken = jwtDecode<MyToken>(token);
         setAuthData(decodedToken);
-        //setIsLogin(true);
       } catch (error) {
         localStorage.removeItem('authToken');
       }
     }
   }, [setAuthData]);
+
+  const handleLogOut = () => {
+    localStorage.removeItem('authToken');
+    logOut();
+    navigate('/');
+  };
 
   return (
     <AppBar position="static">
@@ -84,23 +86,23 @@ const Header: React.FC<HeaderProps> = ({ userName, setAuthData, logOut }) => {
               </Typography>
             )}
           </Grid>
-          {/* {!isLogin ? ( */}
-          <Grid item xs={12} md={1}>
-            <Typography
-              variant="h6"
-              onClick={logOut}
-              style={{
-                cursor: 'pointer',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              Logout
-            </Typography>
-          </Grid>
-          {/* // ) : (
-          //   ''
-          // )} */}
+          {userName !== null ? (
+            <Grid item xs={12} md={1}>
+              <Typography
+                variant="h6"
+                onClick={handleLogOut}
+                style={{
+                  cursor: 'pointer',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
+                Logout
+              </Typography>
+            </Grid>
+          ) : (
+            ''
+          )}
         </Grid>
       </Toolbar>
     </AppBar>
@@ -115,7 +117,9 @@ const mapStateToProps = ({ auth: { authData } }: RootState) => {
 
 const mapDispatchToProps = (dispatch: AppDispatch) => ({
   setAuthData: (token: MyToken) => dispatch(setAuthData(token)),
-  logOut: () => dispatch(logout()),
+  logOut: () => {
+    dispatch(logout());
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

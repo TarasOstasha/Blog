@@ -4,6 +4,7 @@ const createHttpError = require('http-errors');
 const { User } = require('./../models');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const chalk = require('chalk');
 
 module.exports.loginUser = async (req, res, next) => {
   const { email, password } = req.body;
@@ -67,16 +68,17 @@ module.exports.registerUser = async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
+      role: 'user',
     });
-
+    console.log(chalk.blue(newUser), '<< newUser');
     // Generate JWT token
     const token = jwt.sign(
       { id: newUser.id, name: newUser.name, email: newUser.email },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
-
     const responseUser = _.omit(newUser.toJSON(), ['createdAt', 'updatedAt']);
+    console.log(responseUser, '<< responseUser');
     res.status(201).json({
       message: 'User registered successfully!',
       data: responseUser,

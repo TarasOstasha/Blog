@@ -32,7 +32,7 @@ const Register: React.FC<any> = ({ signupUser }) => {
   ) => {
     //console.log(values, '<< values register');
     signupUser(values.name, values.email, values.password);
-    // resetForm(); // Uncomment if you want to reset the form after submission
+    resetForm(); // Uncomment if you want to reset the form after submission
   };
 
   return (

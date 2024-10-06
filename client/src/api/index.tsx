@@ -29,7 +29,6 @@ export const loginUser = (email: string, password: string) =>
 // For signup action
 export const signupUser = (name: string, email: string, password: string) => {
   const data = { name, email, password };
-  //console.log(data, '<< signup data');
   return axiosInstance.post('/auth/signup', data);
 };
 
@@ -44,16 +43,26 @@ export const getThumbnailGalleryData = (limit?: number, offset?: number) => {
 export const deleteThumbnailGalleryItemById = (id: number) =>
   axiosInstance.delete(`/upload/${id}`);
 
-// export interface ImageData1 {
-//   id: number;
-//   fileName: string;
-//   title: string;
-//   author: string;
-// }
 export const updateThumbnailGalleryItem = (
   id: number,
   data: Partial<ImageData>
 ) => axiosInstance.patch(`/upload/${id}`, data);
+
+// USERS
+
+//export const createUser = data => axiosInstance.post('/users', data)
+
+export const getUsers = (limit: number, offset: number) => {
+  const query = queryString.stringify({ limit, offset });
+  return axiosInstance.get(`/users/?${query}`);
+};
+//axiosInstance.get('/users');
+
+export const updateUserRole = (id: string, role: string) =>
+  axiosInstance.patch(`/users/${id}`, { role });
+
+export const deleteUserById = (id: string) =>
+  axiosInstance.delete(`/users/${id}`);
 
 export default axiosInstance;
 

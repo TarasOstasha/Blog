@@ -1,17 +1,29 @@
+<<<<<<< HEAD
 ### 201 {}
 
+=======
+### add user from admin
+>>>>>>> users
 POST http://localhost:5000/api/users
 Content-Type: application/json
 
 {
+<<<<<<< HEAD
   "id": 4,
   "name":"Testovych",
   "email":"t@t.com",
+=======
+  "name": "Testt1t",
+  "email": "t1@t12.com",
+  "password": "11111111",
+>>>>>>> users
   "role": "user"
 }
 
-### 200 {}
+### 200 {} all users
+GET http://localhost:5000/api/users
 
+<<<<<<< HEAD
 GET http://localhost:5000/api/users?limit=2&skip=1
 
 ### 200 {}
@@ -39,4 +51,23 @@ Content-Type: application/json
 
 {
   "role":"admin"
+=======
+### 200 paginate users
+GET http://localhost:5000/api/users?page=1&results=10
+### 200 paginate users
+GET http://localhost:5000/api/users?limit=5&offset=0
+
+### 200
+GET http://localhost:5000/api/users/20
+
+### 200
+DELETE http://localhost:5000/api/users/35
+
+### 200
+PATCH  http://localhost:5000/api/users/37
+Content-Type: application/json
+
+{
+    "role": "admin"
+>>>>>>> users
 }
