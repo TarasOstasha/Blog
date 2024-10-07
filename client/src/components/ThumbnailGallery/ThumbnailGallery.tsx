@@ -19,12 +19,13 @@ import {
   deleteThumbnailGalleryItemThunk,
   updateThumbnailGalleryItemThunk,
 } from '../../store/slices/thumbnailGallerySlice';
+import { URL } from '../../utils/constants';
 
 //const url = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-const url =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5000'
-    : process.env.REACT_APP_API_URL || 'http://localhost:5000';
+// const url =
+//   process.env.NODE_ENV === 'development'
+//     ? 'http://localhost:5000'
+//     : process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const ThumbnailGallery: React.FC<GalleryProps> = ({
   galleryData,
@@ -136,6 +137,7 @@ const ThumbnailGallery: React.FC<GalleryProps> = ({
             key={item.id || index}
             to={`/gallery/${item.id}`}
             style={{ textDecoration: 'none', color: 'inherit' }}
+            state={{ item }}
           >
             <ImageListItem
               key={item.id || index}
@@ -217,8 +219,8 @@ const ThumbnailGallery: React.FC<GalleryProps> = ({
                   }}
                 >
                   <img
-                    src={`${url}${item.fileName}?w=248&fit=crop&auto=format`}
-                    srcSet={`${url}${item.fileName}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                    src={`${URL}${item.fileName}?w=248&fit=crop&auto=format`}
+                    srcSet={`${URL}${item.fileName}?w=248&fit=crop&auto=format&dpr=2 2x`}
                     alt={item.title}
                     loading="lazy"
                     style={{ maxWidth: '100%', maxHeight: '100%' }} // Ensure the image does not overflow

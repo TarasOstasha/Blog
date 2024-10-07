@@ -12,7 +12,7 @@ Content-Type: application/json
 
 ### 200 {}
 
-GET http://localhost:5000/api/upload
+GET http://localhost:5000/api/upload/12
 
 
 ### 204 {}

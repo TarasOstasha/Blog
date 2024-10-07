@@ -17,6 +17,7 @@ export interface GalleryProps {
 
 export interface thumbnailGalleryState {
   galleryData: ImageData[];
+  selectedItem: ImageData | null;
   isFetching: boolean;
   error: string | null;
 }

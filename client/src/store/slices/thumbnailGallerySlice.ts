@@ -185,6 +185,7 @@ const IMG_SLICE_NAME = 'imgGallery';
 
 const initialState: thumbnailGalleryState = {
   galleryData: [],
+  selectedItem: null,
   isFetching: false,
   error: null,
 };
@@ -201,6 +202,22 @@ export const getThumbnailGalleryThunk = createAsyncThunk<
     } = await API.getThumbnailGalleryData(limit, offset);
     //console.log(data, '<< data');
     return data;
+  } catch (err) {
+    if (axios.isAxiosError(err) && err.response) {
+      return rejectWithValue({ errors: err.response.data });
+    }
+    return rejectWithValue({ errors: 'An unknown error occurred' });
+  }
+});
+// get single item
+export const getThumbnailGalleryItemThunk = createAsyncThunk<
+  ImageData, // Return type is the fetched item's data
+  number, // Argument is the ID of the item to fetch
+  { rejectValue: FetchError }
+>(`${IMG_SLICE_NAME}/getById`, async (id, { rejectWithValue }) => {
+  try {
+    const response = await API.getThumbnailGalleryItemById(id);
+    return response.data.data;
   } catch (err) {
     if (axios.isAxiosError(err) && err.response) {
       return rejectWithValue({ errors: err.response.data });
@@ -278,6 +295,21 @@ const thumbnailGallerySlice = createSlice({
       })
       .addCase(
         getThumbnailGalleryThunk.rejected,
+        (state, action: PayloadAction<FetchError | undefined>) => {
+          state.isFetching = false;
+          state.error = action.payload?.errors || 'Failed to fetch data';
+        }
+      )
+      // get single item
+      .addCase(getThumbnailGalleryItemThunk.pending, (state) => {
+        state.isFetching = true;
+      })
+      .addCase(getThumbnailGalleryItemThunk.fulfilled, (state, { payload }) => {
+        state.isFetching = false;
+        state.selectedItem = payload;
+      })
+      .addCase(
+        getThumbnailGalleryItemThunk.rejected,
         (state, action: PayloadAction<FetchError | undefined>) => {
           state.isFetching = false;
           state.error = action.payload?.errors || 'Failed to fetch data';

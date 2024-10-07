@@ -52,13 +52,13 @@ module.exports.getImgById = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    //const foundUser = await User.findById(userId);
-    // if (!foundUser) {
-    //   return next(createHttpError(404, createHttpError(404, 'User Not Found')));
-    // }
-    // res.status(200).send({ data: foundUser });
+    const foundUser = await Gallery.findByPk(id);
+    if (!foundUser) {
+      return next(createHttpError(404, createHttpError(404, 'User Not Found')));
+    }
+    res.status(200).send({ data: foundUser });
   } catch (error) {
-    next(error);
+    next(createHttpError(404, createHttpError(404, 'User Not Found')));
   }
 };
 

@@ -40,6 +40,9 @@ export const getThumbnailGalleryData = (limit?: number, offset?: number) => {
   return axiosInstance.get('/upload', { params: { limit, offset } });
 };
 
+export const getThumbnailGalleryItemById = (id: number) =>
+  axiosInstance.get(`/upload/${id}`);
+
 export const deleteThumbnailGalleryItemById = (id: number) =>
   axiosInstance.delete(`/upload/${id}`);
 
